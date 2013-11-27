@@ -51,11 +51,11 @@ if($options){?>
         <td width="30%"><b>Значение</b></td> 
         <td width="35%"><b>Удалить</b></td> 
         </tr><?
-    foreach ($options as $optionName) {
+    foreach ($options as $optionName) { 
         ?><tr> 
-          <td width="30%"><?=$optionName?></td>
+          <td width="30%"><?=$optionName?> [<a href='#' onclick='prompt("Скопируйте код и вставьте в нужное место шаблона", "echo COption::GetOptionString(\"conf\",\"<?=$optionName?>\");"); return false;'>код</a>]</td>
           <td width="30%"><input type="text" size="43" value="<?= COption::GetOptionString($module_name, $optionName) ?>" name="conf[<?= $optionName ?>][val]" /></td>
-          <td width="35%"><input type="checkbox" name="conf[<?= $optionName ?>][delete]"></td> 
+          <td width="35%"><input type="checkbox" name="conf[<?= $optionName ?>][delete]"></td>
         </tr>
     <?
     }
