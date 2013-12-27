@@ -54,18 +54,18 @@ $tabControl->Begin();
 $tabControl->BeginNextTab();
 if($options){?>
     <tr>
-       <td width="10%"></td>
-       <td width="20%"><b>Имя</b></td>
+       <td width="2%"></td>
        <td width="20%"><b>Описание</b></td>
-       <td width="20%"><b>Значение</b></td> 
+       <td width="40%"><b>Значение</b></td> 
+       <td width="10%"></td>
        <td width="5%"><b>Удалить</b></td> 
     </tr><?
     foreach ($options as $option) { ?>
     <tr>  
-       <td width="10%">[<a href='#' onclick='prompt("Скопируйте код и вставьте в нужное место шаблона", "echo COption::GetOptionString(\"conf\",\"<?=$option['NAME']?>\");"); return false;'>код</a>]</td>
-       <td width="20%"><?=$option["NAME"]?></td>
+       <td width="2%"></td>
        <td width="20%"><?=$option["DESCRIPTION"]?></td>
-       <td width="20%"><input type="text" size="43" value="<?= COption::GetOptionString($module_name, $option['NAME']) ?>" name="conf[<?= $option['NAME'] ?>][val]" /></td>
+       <td width="40%"><input type="text" size="60" value="<?= COption::GetOptionString($module_name, $option['NAME']) ?>" name="conf[<?= $option['NAME'] ?>][val]" /></td>
+       <td width="10%"><a href='#' onclick='prompt("Скопируйте код и вставьте в нужное место шаблона", "echo COption::GetOptionString(\"conf\",\"<?=$option['NAME']?>\");"); return false;'><?=$option["NAME"]?></a></td>
        <td width="5%"><input type="checkbox" name="conf[<?= $option['NAME'] ?>][delete]"></td>
      </tr><? }
 } else {
