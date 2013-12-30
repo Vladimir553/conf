@@ -3,25 +3,22 @@
     есть опасение что в следующих версиях его вообще грохнут нахер
     поэтому храню описания своих полей немного через жопу :(            */
 
-$module_name = 'conf';
-global $DB;
+$module_name = 'conf'; 
 $res = $DB->Query('SELECT * FROM `b_option` WHERE `MODULE_ID` = "' . $module_name . '_descriptions"');
-while ($option = $res->Fetch()){
+while ($option = $res->Fetch())
     $options[] = array('DESCRIPTION' => $option['VALUE'], 'NAME' => $option['NAME']);
-}
-$tabControl = new CAdminTabControl("tabControl", 
-                                   array(
-                                         array("DIV" => "edit",
-                                                 "TAB" => 'Редактирование настроек', 
-                                                 "TITLE" => 'Редактирование настроек'),
-                                         array("DIV" => "create",
-                                                 "TAB" => 'Добавление настроек', 
-                                                 "TITLE" => 'Добавление настроек') ,
-                                         array("DIV" => "help",
-                                                 "TAB" => 'Справка', 
-                                                 "TITLE" => 'Справка') 
-                                         )
-                                    );
+
+$tabControl = new CAdminTabControl("tabControl", array(
+    array("DIV" => "edit",
+          "TAB" => 'Редактирование настроек',
+          "TITLE" => 'Редактирование настроек'),
+    array("DIV" => "add",
+          "TAB" => 'Добавление настроек',
+          "TITLE" => 'Добавление настроек'),
+    array("DIV" => "help",
+          "TAB" => 'Справка',
+          "TITLE" => 'Справка'))
+);
 
 if ((strlen($_REQUEST['Apply']) > 0) && check_bitrix_sessid()) {
     foreach ($options as $k => $option){
@@ -37,16 +34,10 @@ if ((strlen($_REQUEST['Apply']) > 0) && check_bitrix_sessid()) {
     if (count($_REQUEST['new_conf_name'])) {
         for ($i = 0; $i < count($_REQUEST['new_conf_name']); $i++) {
             COption::SetOptionString($module_name, $_REQUEST['new_conf_name'][$i], '');
-            COption::SetOptionString($module_name . '_descriptions', $_REQUEST['new_conf_name'][$i], $_REQUEST['new_option_description'][$i]);
-            $options[] = array('NAME'=>$_REQUEST['new_conf_name'][$i], 'DESCRIPTION'=>$_REQUEST['new_option_description'][$i]);
+            COption::SetOptionString($module_name . '_descriptions', $_REQUEST['new_conf_name'][$i], $_REQUEST['new_option_description'][$i]); 
         }
-    } 
-
-    if (strlen($_REQUEST['Update']) && strlen($_REQUEST['back_url_settings'])) {
-        LocalRedirect($_REQUEST['back_url_settings']);
-    } else {
-        LocalRedirect($GLOBALS['APPLICATION']->GetCurPage() . "?mid=" . urlencode($mid) . "&lang=" . (LANGUAGE_ID) . "&back_url_settings=" . urlencode($_REQUEST["back_url_settings"]));
-    }
+    }  
+    LocalRedirect($GLOBALS['APPLICATION']->GetCurPage() . "?mid=" . urlencode($mid) . "&lang=" . (LANGUAGE_ID) . "&back_url_settings=" . urlencode($_REQUEST["back_url_settings"]));
 }
 $tabControl->Begin(); 
 ?>
@@ -82,7 +73,7 @@ for ($j = 1; $j <= 6; $j++) { ?>
 $tabControl->BeginNextTab();
 ?>
 <p>Получить установленное значение можно так: <?=str_replace('&lt;?', '', highlight_string('<? $val = COption::GetOptionString(\'conf\', \'имя настройки\');', true)); ?></p>      
-<? $tabControl->Buttons() ?>
+<? $tabControl->Buttons(); ?>
 <input type="submit" name="Apply" value="Применить" title="Применить" /><?= bitrix_sessid_post(); ?>
-<? $tabControl->End() ?>
+<? $tabControl->End(); ?>
 </form>
