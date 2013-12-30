@@ -17,7 +17,7 @@ $tabControl = new CAdminTabControl("tabControl", array(
           "TITLE" => 'Добавление настроек'),
     array("DIV" => "help",
           "TAB" => 'Справка',
-          "TITLE" => 'Справка'))
+          "TITLE" => 'Справка')) 
 );
 
 if ((strlen($_REQUEST['Apply']) > 0) && check_bitrix_sessid()) {
@@ -37,11 +37,11 @@ if ((strlen($_REQUEST['Apply']) > 0) && check_bitrix_sessid()) {
             COption::SetOptionString($module_name . '_descriptions', $_REQUEST['new_conf_name'][$i], $_REQUEST['new_option_description'][$i]); 
         }
     }  
-    LocalRedirect($GLOBALS['APPLICATION']->GetCurPage() . "?mid=" . urlencode($mid) . "&lang=" . (LANGUAGE_ID) . "&back_url_settings=" . urlencode($_REQUEST["back_url_settings"]));
+    LocalRedirect($GLOBALS['APPLICATION']->GetCurPage() . "?lang=" . (LANGUAGE_ID) . "&back_url_settings=" . urlencode($_REQUEST["back_url_settings"]));
 }
 $tabControl->Begin(); 
 ?>
-<form  method="post" action="<?=$APPLICATION->GetCurPage()?>?mid=<?=urlencode($mid)?>&amp;lang=<?=LANGUAGE_ID?>"> <?
+<form  method="post" action="<?=$APPLICATION->GetCurPage()?>?lang=<?=LANGUAGE_ID?>"> <?
 $tabControl->BeginNextTab();
 if($options){?>
     <tr>
@@ -56,7 +56,7 @@ if($options){?>
        <td width="2%"></td>
        <td width="20%"><?=$option["DESCRIPTION"]?></td>
        <td width="40%"><input type="text" size="60" value="<?= COption::GetOptionString($module_name, $option['NAME']) ?>" name="conf[<?= $option['NAME'] ?>][val]" /></td>
-       <td width="10%"><a href='#' onclick='prompt("Скопируйте код и вставьте в нужное место шаблона", "echo COption::GetOptionString(\"conf\",\"<?=$option['NAME']?>\");"); return false;'><?=$option["NAME"]?></a></td>
+       <td width="10%"><a href='#' onclick='prompt("Скопируйте код и вставьте в нужное место шаблона", "echo COption::GetOptionString(\"<?=$module_name;?>\",\"<?=$option['NAME']?>\");"); return false;'><?=$option["NAME"]?></a></td>
        <td width="5%"><input type="checkbox" name="conf[<?= $option['NAME'] ?>][delete]"></td>
      </tr><? }
 } else {
@@ -72,7 +72,7 @@ for ($j = 1; $j <= 6; $j++) { ?>
 <? }
 $tabControl->BeginNextTab();
 ?>
-<p>Получить установленное значение можно так: <?=str_replace('&lt;?', '', highlight_string('<? $val = COption::GetOptionString(\'conf\', \'имя настройки\');', true)); ?></p>      
+<p>Получить установленное значение можно так: <?=str_replace('&lt;?', '', highlight_string('<? $val = COption::GetOptionString(\'' . $module_name . '\', \'имя настройки\');', true)); ?></p>      
 <? $tabControl->Buttons(); ?>
 <input type="submit" name="Apply" value="Применить" title="Применить" /><?= bitrix_sessid_post(); ?>
 <? $tabControl->End(); ?>
